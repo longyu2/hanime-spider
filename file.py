@@ -20,5 +20,4 @@ def write(filename,filetype,content):
             print("error!")
             return False
         else:
-
             return True

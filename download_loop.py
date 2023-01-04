@@ -1,7 +1,7 @@
 # 本文件用来根据待下载队列中的所有json文件，批量下载
 import os
 import random
-import main
+import byJsonDownload
 import file
 
 # PATH = print(os.getcwd())
@@ -34,5 +34,5 @@ for path, d, filelist in os.walk(jsons_path):
 
 for i in ALL_list:
     print(i)
-    main.byJsonDownload(i, output_folder)
+    byJsonDownload.byJsonDownload(i, output_folder)
     

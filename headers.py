@@ -1,6 +1,7 @@
 import json
 import file
 import requests
+from get_proxy import requests_proxy
 
 cookies = {
     '_ga': 'GA1.2.1622132898.1653587732',
@@ -36,4 +37,4 @@ headers = {
 
 
 
-proxies = json.loads(file.read("./proxie.json",'r'))
+proxies = requests_proxy

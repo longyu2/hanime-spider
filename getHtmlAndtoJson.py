@@ -1,17 +1,13 @@
 import json
 import math
-
 import bs4
-
 from selenium import webdriver
 from bs4 import BeautifulSoup
-
+from get_proxy import requests_proxy
 
 # 本函数用来抓取某个页面，
 def get_html(httpurl):
-    proxie = {}
-    with open('proxie.json', 'r') as fp:
-        proxie = json.loads(fp.read())
+    
 
     # 此处使用selenium而不是requests来抓取数据，因为有反爬限制
     option = webdriver.ChromeOptions()
