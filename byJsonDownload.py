@@ -35,19 +35,14 @@ def download_img_by_number(number, folder):
         print(str(datetime.datetime.now())+"\t\t"+"该文章第"+str(i)+"张图片完成", end=" ")
         print("下载完成花费时间为:{}秒".format(download_end_time-start_time) ,end=" ")
         if req.status_code != 200:
-            print(str(datetime.datetime.now())+"\t\t"+"该文章全部完成")
+            print(str(datetime.datetime.now())+" "+"该文章全部完成")
             break
-        with open(folder+'/'+str(i)+'.jpg', 'wb') as fp:
-            fp.write(req.content)
-        
+        file.write(folder+'/'+str(i)+'.jpg','wb',req.content)
         end_time = time.time()
-
         print("存储于文件夹花费时间为:{}秒".format(end_time-start_time))
         
-
 # 根据json里存储的信息，调用download函数进行批量下载
 def byJsonDownload(Path_and_fileName, outputFolder):
-
     # Path_and_fileName 是一个字典，存储着json文件的路径和文件名
     jsonFileName = Path_and_fileName["filename"]            # 使用jsonFileName存储json文件名
     
@@ -91,4 +86,3 @@ def byJsonDownload(Path_and_fileName, outputFolder):
         print(str(datetime.datetime.now())+"\t\t"+"第"+str(num)+"篇本子下载完成")
         num+=1
 
-# byJsonDownload(input("请输入json路径"),input("请输入输出文件夹路径"))
