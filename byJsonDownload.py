@@ -6,6 +6,8 @@ import time
 import file
 import requests
 from get_proxy import requests_proxy
+import urllib3
+urllib3.disable_warnings()
 
 
 # https://hanime1.me/comic/78548  这个是该本子的网址，78548是它的编号，它还有一个数字，也就是地址的编号，用来存储图片
@@ -17,14 +19,11 @@ def download_img_by_number(number, folder):
     index = number
     max = 1000
     for i in range(1, max):
-       
         while(True):
             try:
-
                 start_time = time.time()
-                
                 req = requests.get('https://i.nhentai.net/galleries/' +
-                                index+'/'+str(i)+'.jpg', proxies=requests_proxy, headers={'Connection':'close'})
+                                index+'/'+str(i)+'.jpg', proxies=requests_proxy, headers={'Connection':'close'},verify=False)
             except:
                 print("请求时出现错误，已经成功抛出异常")
                 print("3秒后自动重新发起请求")
@@ -32,16 +31,18 @@ def download_img_by_number(number, folder):
                 continue
             finally:
                 break
-
+        download_end_time = time.time()
+        print(str(datetime.datetime.now())+"\t\t"+"该文章第"+str(i)+"张图片完成", end=" ")
+        print("下载完成花费时间为:{}秒".format(download_end_time-start_time) ,end=" ")
         if req.status_code != 200:
             print(str(datetime.datetime.now())+"\t\t"+"该文章全部完成")
             break
         with open(folder+'/'+str(i)+'.jpg', 'wb') as fp:
             fp.write(req.content)
-        print(str(datetime.datetime.now())+"\t\t"+"该文章第"+str(i)+"张图片完成", end=" ")
+        
         end_time = time.time()
 
-        print("花费时间为:{}秒".format(end_time-start_time))
+        print("存储于文件夹花费时间为:{}秒".format(end_time-start_time))
         
 
 # 根据json里存储的信息，调用download函数进行批量下载
@@ -54,6 +55,7 @@ def byJsonDownload(Path_and_fileName, outputFolder):
     PathAndName = os.path.join(
         Path_and_fileName["path"], Path_and_fileName["filename"])
 
+   
     # 读取json文件，并转换为字典列表
     json_tag_dict = json.loads(file.read(PathAndName, 'r'))     
 
